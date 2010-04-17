@@ -130,9 +130,7 @@ var Notimoo = new Class({
         });
 
         // Insert default element into array
-        this.elements.push(
-            this.createNotificationElement(this.options)
-        );
+        this.elements.push(this.createNotificationElement());
 
     },
 
