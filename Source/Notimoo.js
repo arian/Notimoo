@@ -265,7 +265,9 @@ var Notimoo = new Class({
         // Hide and reset notification. Destroy it when it's not the last one.
         var manager = this;
         var nots = manager.elements;
-        element.get('tween').start('opacity', 0).chain(function() {             
+        element.get('tween').addEvent('onComplete',function(){
+			element.dispose();
+		}).start('opacity', 0).chain(function() {             
             if (nots.length > 1) {
                 nots.elements = nots.erase(element);
                 element.destroy();
