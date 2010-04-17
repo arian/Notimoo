@@ -325,10 +325,12 @@ var Notimoo = new Class({
      * It only resets the attributes that could be changed before.
      */
     _resetNotificationElement: function(element) {
-        element.store('working', false);
-        element.setStyle(this.options.locationVType, this.options.locationVBase);
-        element.setStyle('height', this.options.height);
-        element.setStyle('width', this.options.width);
+        var styles = {
+			height: this.options.height,
+			widht: this.options.width
+		};
+		styles[this.options.locationVType] = this.options.locationVBase;
+		element.setStyles(styles).store('working', false); 
     },
 
     /**
