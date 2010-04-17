@@ -337,12 +337,9 @@ var Notimoo = new Class({
      * Helper function to apply scroll location to element base.
      */
     _applyScrollPosition: function(base) {
-        if (this.options.locationVType == 'top') {
-            base +=this.options.parent.getScroll().y;
-        } else {
-            base -=this.options.parent.getScroll().y;
-        }
-        return base;
+		var y = this.options.parent.getScroll().y;
+		if(this.options.locationVType != 'top') y = -y;
+        return base + y;
     },
 
     /*
