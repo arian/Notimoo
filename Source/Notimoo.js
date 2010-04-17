@@ -139,22 +139,31 @@ var Notimoo = new Class({
      */
     createNotificationElement: function() {
         var el = new Element('div', {
-                'class': 'notimoo'
-            });
-        el.setStyle(this.options.locationVType, this.options.locationVBase);
-        el.setStyle(this.options.locationHType, this.options.locationHBase);
-        el.adopt(new Element('span', { 'class': 'title' }));
-        el.adopt(new Element('div', { 'class': 'message' }));
-        el.setStyle('width', this.options.width);
-        el.setStyle('height', this.options.height);
+            'class': 'notimoo',
+			styles: {
+				width: this.options.width,
+				height: this.options.height,
+				opacity: 0				
+			},
+			tween: {
+	            link: 'chain',
+	            duration: this.options.opacityTransitionTime				
+			},
+			events: {
+		        // Close the notification when the user click inside
+				click: function(e) {
+		            e.stop();
+		            this.close(el);
+		        }.bind(this)
+			}
+        })
+			.setStyle(this.options.locationVType, this.options.locationVBase)
+        	.setStyle(this.options.locationHType, this.options.locationHBase)
+        	.adopt(new Element('span', { 'class': 'title' }))
+        	.adopt(new Element('div', { 'class': 'message' }));
 
         // Element default tween instance is used to handle opacity
         el.store('working', false);
-        el.set('tween', {
-            link: 'chain',
-            duration: this.options.opacityTransitionTime
-        });
-        el.set('opacity', 0);
 
         // This tween instance is used to move the notification when another one is closed
         var fx1 = new Fx.Tween(el, {
@@ -171,12 +180,6 @@ var Notimoo = new Class({
             duration: this.options.scrollRelocationTransitionTime
         });
         el.store('scrollTween', fx2);
-
-        // Close the notification when the user click inside
-        el.addEvent('click', function(event) {
-            event.stop();
-            this.close(el);
-        }.bind(this));
 
         return el;
     },
