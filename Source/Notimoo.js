@@ -140,27 +140,27 @@ var Notimoo = new Class({
     createNotificationElement: function() {
         var el = new Element('div', {
             'class': 'notimoo',
-			styles: {
-				width: this.options.width,
-				height: this.options.height,
-				opacity: 0				
-			},
-			tween: {
-	            link: 'chain',
-	            duration: this.options.opacityTransitionTime				
-			},
-			events: {
-		        // Close the notification when the user click inside
-				click: function(e) {
-		            e.stop();
-		            this.close(el);
-		        }.bind(this)
-			}
+            styles: {
+                width: this.options.width,
+                height: this.options.height,
+                opacity: 0
+            },
+            tween: {
+                link: 'chain',
+                duration: this.options.opacityTransitionTime
+            },
+            events: {
+                // Close the notification when the user click inside
+                click: function(e) {
+                    e.stop();
+                    this.close(el);
+                }.bind(this)
+            }
         })
-			.setStyle(this.options.locationVType, this.options.locationVBase)
-        	.setStyle(this.options.locationHType, this.options.locationHBase)
-        	.adopt(new Element('span', { 'class': 'title' }))
-        	.adopt(new Element('div', { 'class': 'message' }));
+            .setStyle(this.options.locationVType, this.options.locationVBase)
+            .setStyle(this.options.locationHType, this.options.locationHBase)
+            .adopt(new Element('span', { 'class': 'title' }))
+            .adopt(new Element('div', { 'class': 'message' }));
 
         // Element default tween instance is used to handle opacity
         el.store('working', false);
@@ -191,7 +191,7 @@ var Notimoo = new Class({
      *  @param booleam sticky (optional) -> Whether the notification won't be removed until user interaction (defaults to false)
      *  @param int visibleTime (optional) -> Time for the notification to be displayed (in milliseconds). If this isn't provided, the global one will be used.
      *  @param int width (optional) -> Width fot the notification (in pixels). If this isn't provided, the global one will be used.
-     *	@param String customClass (optional) -> Custom class you want to apply to this notification. (It can be a list of classes separated by a blank space)
+     *  @param String customClass (optional) -> Custom class you want to apply to this notification. (It can be a list of classes separated by a blank space)
      */
     show: function(options) {        
         
@@ -207,51 +207,51 @@ var Notimoo = new Class({
             return !w;
         }, this).getLast();
 
-       // Create element if there is no available one
-       if (!el) {
-         el = this.createNotificationElement();
-         this.elements.push(el);
-       } 
+        // Create element if there is no available one
+        if (!el) {
+           el = this.createNotificationElement();
+           this.elements.push(el);
+        } 
 
-       // Set base and 'working' flag
-       el.setStyle(this.options.locationVType, nextBase);
-       el.store('working', true);
+        // Set base and 'working' flag
+        el.setStyle(this.options.locationVType, nextBase);
+        el.store('working', true);
 
-       // Check if a custom width has been provided
-       if (options.width) el.setStyle('width', options.width);
+        // Check if a custom width has been provided
+        if (options.width) el.setStyle('width', options.width);
        
-       // Set notification content
-       // Since title is optional and we're reusing notifications, we need to check 
-       el.getElement('span.title').set('html', (options.title) ? options.title : '');
-       el.getElement('div.message').set('html', options.message);
+        // Set notification content
+        // Since title is optional and we're reusing notifications, we need to check 
+        el.getElement('span.title').set('html', (options.title) ? options.title : '');
+        el.getElement('div.message').set('html', options.message);
 
-	   // Add custom classes
-	   if (options.customClass) el.addClass(options.customClass);
+        // Add custom classes
+        if (options.customClass) el.addClass(options.customClass);
 
-       // Once the notification is populated, we check to see if there is any link inside so we can
-       // configure it in order not to close the notification when it's clicked
-       el.getElements('a').addEvent('click', function(event) {           
+        // Once the notification is populated, we check to see if there is any link inside so we can
+        // configure it in order not to close the notification when it's clicked
+        el.getElements('a').addEvent('click', function(event) {           
             event.stopPropagation();
         });
 
-       // Insert the element into the DOM
-       this.options.parent.adopt(el);
+        // Insert the element into the DOM
+        this.options.parent.adopt(el);
 
-       // This must be done after the element is inserted into DOM. Previously (on Lost!) the element does not have coordinates (obviously)
-       this._checkSize(el);
+        // This must be done after the element is inserted into DOM. Previously (on Lost!) the element does not have coordinates (obviously)
+        this._checkSize(el);
 
-       // Show the element with a lot of style
-       el.get('tween').start('opacity', this.options.notificationOpacity).chain(function() {
-              	
-       	// Set close notification with options visibleTime delay
-       	if ((options.sticky) ? !options.sticky : true) {
-           (function() { manager.close(el); } ).delay((options.visibleTime) ? options.visibleTime : manager.options.visibleTime, manager);
-       	}
+        // Show the element with a lot of style
+        el.get('tween').start('opacity', this.options.notificationOpacity).chain(function() {
+
+            // Set close notification with options visibleTime delay
+            if ((options.sticky) ? !options.sticky : true) {
+               (function() { manager.close(el); } ).delay((options.visibleTime) ? options.visibleTime : manager.options.visibleTime, manager);
+            }
        	
-       	// Fire callback
-       	manager.fireEvent('show', el);
+            // Fire callback
+            manager.fireEvent('show', el);
        	
-       });
+        });
               
     },
 
@@ -266,8 +266,8 @@ var Notimoo = new Class({
         var manager = this;
         var nots = manager.elements;
         element.get('tween').addEvent('onComplete',function(){
-			element.dispose();
-		}).start('opacity', 0).chain(function() {             
+            element.dispose();
+        }).start('opacity', 0).chain(function() {             
             if (nots.length > 1) {
                 nots.elements = nots.erase(element);
                 element.destroy();
@@ -326,19 +326,19 @@ var Notimoo = new Class({
      */
     _resetNotificationElement: function(element) {
         var styles = {
-			height: this.options.height,
-			widht: this.options.width
-		};
-		styles[this.options.locationVType] = this.options.locationVBase;
-		element.setStyles(styles).store('working', false); 
+            height: this.options.height,
+            widht: this.options.width
+        };
+        styles[this.options.locationVType] = this.options.locationVBase;
+        element.setStyles(styles).store('working', false); 
     },
 
     /**
      * Helper function to apply scroll location to element base.
      */
     _applyScrollPosition: function(base) {
-		var y = this.options.parent.getScroll().y;
-		if(this.options.locationVType != 'top') y = -y;
+        var y = this.options.parent.getScroll().y;
+        if(this.options.locationVType != 'top') y = -y;
         return base + y;
     },
 
