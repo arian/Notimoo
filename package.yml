@@ -6,3 +6,5 @@ tags: [notification, popup]
 docs: http://code.google.com/p/notimoo/wiki/Documentation
 demo: http://www.paquitosoft.com/notimoo
 
+sources: 
+  - "Source/Notimoo.js"
